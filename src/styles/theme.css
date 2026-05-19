@@ -1,0 +1,50 @@
+:root {
+  /* ── Palette ── */
+  --color-bg: #05000D;
+  --color-card: #0C0018;
+  --color-card-alt: #100020;
+  --color-purple: #BF00FF;
+  --color-purple-dim: #8800BB;
+  --color-magenta: #FF00FF;
+  --color-cyan: #00FFFF;
+  --color-pink: #FF2D78;
+  --color-yellow: #FFE600;
+  --color-white: #EDE8FF;
+  --color-muted: #4A3A6A;
+  --color-text: #B8A8D8;
+  --color-border: rgba(191, 0, 255, 0.3);
+  --color-border-m: rgba(255, 0, 255, 0.25);
+
+  /* ── Fonts ── */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-orbi: 'Orbitron', monospace;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-retro: 'VT323', monospace;
+}
+
+/* ── Base ── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-purple); border-radius: 2px; }
+
+/* ── Placeholders ── */
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.7;
+}

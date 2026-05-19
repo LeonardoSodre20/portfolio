@@ -13,7 +13,7 @@ export function AboutSection() {
         <CyberPanel title="~ bash — zsh">
           <div className="about__terminal-body">
             <TermLine cmd="whoami" out="Leonardo Sodré" color="#00FFFF" />
-            <TermLine cmd="cat bio.txt" out="Dev apaixonado por transformar ideias em produtos reais. Do banco de dados ao pixel final." color="#B8A8D8" />
+            <TermLine cmd="cat bio.txt" out="Sempre fui fascinado por tecnologia e pelo universo dos jogos. Desde criança, passar horas jogando e entender como aquilo funcionava moldou minha curiosidade — e, de certa forma, minha personalidade. Sou também um grande fã de animes e filmes da Marvel. One Piece, Naruto, Dragon Ball e Nanatsu no Taizai são alguns dos meus preferidos." color="#B8A8D8" />
             <TermLine cmd="cat local.txt" out="📍 Brasil" color="#BF00FF" />
             <TermLine cmd="cat exp.txt" out="4+ anos de experiência" color="#FFE600" />
             <TermLine cmd="cat status.txt" out="✅ Disponível para freela & CLT" color="#FF00FF" />

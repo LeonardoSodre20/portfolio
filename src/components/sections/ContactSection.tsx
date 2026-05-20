@@ -1,9 +1,31 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import emailjs from "@emailjs/browser";
 import { Terminal, Zap, Github, Linkedin, Mail } from "lucide-react";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { CyberPanel } from "@/components/ui/CyberPanel";
 import { CyberInput } from "@/components/ui/CyberInput";
+import { CyberTextarea } from "@/components/ui/CyberTextarea";
 import { CyberBtn } from "@/components/ui/CyberBtn";
+
+const contactSchema = z.object({
+  nome: z
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(150, "Nome deve ter no máximo 150 caracteres"),
+  email: z
+    .string()
+    .min(1, "Campo obrigatório")
+    .email("E-mail inválido"),
+  msg: z
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(500, "Mensagem deve ter no máximo 500 caracteres"),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 const SOCIALS = [
   { icon: Github, label: "GITHUB", color: "#BF00FF", href: "https://github.com/LeonardoSodre20" },
@@ -12,14 +34,39 @@ const SOCIALS = [
 ];
 
 export function ContactSection() {
-  const [form, setForm] = useState({ nome: "", email: "", msg: "" });
   const [sent, setSent] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
 
-  const send = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSent(true);
-    setForm({ nome: "", email: "", msg: "" });
-    setTimeout(() => setSent(false), 3500);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: "onBlur",
+  });
+
+  const msgValue = watch("msg");
+
+  const onSubmit = async (data: ContactFormData) => {
+    setSendError(null);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        { nome: data.nome, email: data.email, msg: data.msg },
+        { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY },
+      );
+
+      setSent(true);
+      reset();
+      setTimeout(() => setSent(false), 3500);
+    } catch {
+      setSendError("Erro ao enviar mensagem. Tente novamente.");
+    }
   };
 
   return (
@@ -27,46 +74,51 @@ export function ContactSection() {
       <SectionLabel>CONTATO</SectionLabel>
 
       <CyberPanel title="send_message.sh" icon={<Terminal size={13} style={{ color: "var(--color-purple)" }} />}>
-        <form onSubmit={send} className="contact__form">
+        <form onSubmit={handleSubmit(onSubmit)} className="contact__form">
           {sent && (
             <div className="contact__success">
               ✅ Mensagem enviada com sucesso! Retornarei em breve.
             </div>
           )}
+          {sendError && (
+            <div className="contact__error">
+              ⚠ {sendError}
+            </div>
+          )}
 
           <CyberInput
             label="NOME"
-            value={form.nome}
-            onChange={(v) => setForm((s) => ({ ...s, nome: v }))}
             placeholder="Seu nome completo"
+            error={errors.nome?.message}
+            disabled={isSubmitting}
+            {...register("nome")}
           />
           <CyberInput
             label="E-MAIL"
             type="email"
-            value={form.email}
-            onChange={(v) => setForm((s) => ({ ...s, email: v }))}
             placeholder="seu@email.com"
+            error={errors.email?.message}
+            disabled={isSubmitting}
+            {...register("email")}
           />
 
-          <div>
-            <label className="cyber-input__label">// MENSAGEM</label>
-            <textarea
-              value={form.msg}
-              onChange={(e) => setForm((s) => ({ ...s, msg: e.target.value }))}
-              placeholder="Conta o que você precisa..."
-              required
-              rows={5}
-              className="cyber-textarea"
-            />
-          </div>
+          <CyberTextarea
+            label="MENSAGEM"
+            placeholder="Conta o que você precisa..."
+            rows={5}
+            error={errors.msg?.message}
+            disabled={isSubmitting}
+            counterCurrent={msgValue?.length ?? 0}
+            counterMax={500}
+            {...register("msg")}
+          />
 
-          <CyberBtn primary type="submit" fullWidth>
-            ENVIAR MENSAGEM <Zap size={14} />
+          <CyberBtn primary type="submit" fullWidth disabled={isSubmitting}>
+            {isSubmitting ? "ENVIANDO..." : "ENVIAR MENSAGEM"} <Zap size={14} />
           </CyberBtn>
         </form>
       </CyberPanel>
 
-      {/* Social row */}
       <div className="contact__social">
         {SOCIALS.map((s) => {
           const Icon = s.icon;

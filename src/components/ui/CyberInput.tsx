@@ -1,23 +1,16 @@
-interface CyberInputProps {
+import type { InputHTMLAttributes } from "react";
+
+interface CyberInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  type?: string;
+  error?: string;
 }
 
-export function CyberInput({ label, value, onChange, placeholder, type = "text" }: CyberInputProps) {
+export function CyberInput({ label, error, className, ...props }: CyberInputProps) {
   return (
     <div>
       <label className="cyber-input__label">// {label}</label>
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        required
-        className="cyber-input__field"
-      />
+      <input className={`cyber-input__field ${className ?? ""}`} {...props} />
+      {error && <span className="cyber-input__error">{error}</span>}
     </div>
   );
 }

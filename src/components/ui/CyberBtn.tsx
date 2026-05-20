@@ -4,9 +4,10 @@ interface CyberBtnProps {
   primary?: boolean;
   fullWidth?: boolean;
   type?: "button" | "submit";
+  disabled?: boolean;
 }
 
-export function CyberBtn({ children, onClick, primary, fullWidth, type = "button" }: CyberBtnProps) {
+export function CyberBtn({ children, onClick, primary, fullWidth, type = "button", disabled }: CyberBtnProps) {
   const classes = [
     "cyber-btn",
     primary ? "cyber-btn--primary" : "cyber-btn--secondary",
@@ -14,7 +15,7 @@ export function CyberBtn({ children, onClick, primary, fullWidth, type = "button
   ].filter(Boolean).join(" ");
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} className={classes} disabled={disabled}>
       {children}
     </button>
   );

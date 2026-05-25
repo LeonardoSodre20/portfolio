@@ -17,7 +17,7 @@ export const TIMELINE = [
   {
     company: "Mind Consulting",
     period: "Mai 2023 - Ago 2024",
-    role: "Desenvolvedor Fullstack PL",
+    role: "Desenvolvedor Fullstack JR",
     color: "#BF00FF",
     bullets: [
       "Desenvolvimento de aplicações web utilizando React, Next.js, TypeScript e Chakra UI, com foco em qualidade e boas práticas.",
@@ -30,7 +30,7 @@ export const TIMELINE = [
   {
     company: "Mind Consulting",
     period: "Set 2022 - Mai 2023",
-    role: "Desenvolvedor Fullstack JR",
+    role: "Estagiário",
     color: "#00FFFF",
     bullets: [
       "Desenvolvimento de aplicações web de pequeno e médio porte utilizando React, Next.js e TypeScript.",

@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScanlineOverlay, CRTGrid, AmbientBlobs } from "@/components/layout/Overlays";
@@ -27,6 +28,7 @@ export default function App() {
         <ProjectsSection />
         <ContactSection />
         <Footer />
+        <Toaster theme="dark" richColors position="top-center" />
       </div>
     </>
   );

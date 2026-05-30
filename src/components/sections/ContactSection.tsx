@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -34,9 +34,6 @@ const SOCIALS = [
 ];
 
 export function ContactSection() {
-  const [sent, setSent] = useState(false);
-  const [sendError, setSendError] = useState<string | null>(null);
-
   const {
     register,
     handleSubmit,
@@ -51,8 +48,6 @@ export function ContactSection() {
   const msgValue = watch("msg");
 
   const onSubmit = async (data: ContactFormData) => {
-    setSendError(null);
-
     try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -61,11 +56,10 @@ export function ContactSection() {
         { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY },
       );
 
-      setSent(true);
+      toast.success("Mensagem enviada com sucesso! Retornarei em breve.");
       reset();
-      setTimeout(() => setSent(false), 3500);
     } catch {
-      setSendError("Erro ao enviar mensagem. Tente novamente.");
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
     }
   };
 
@@ -75,17 +69,6 @@ export function ContactSection() {
 
       <CyberPanel title="send_message.sh" icon={<Terminal size={13} style={{ color: "var(--color-purple)" }} />}>
         <form onSubmit={handleSubmit(onSubmit)} className="contact__form">
-          {sent && (
-            <div className="contact__success">
-              ✅ Mensagem enviada com sucesso! Retornarei em breve.
-            </div>
-          )}
-          {sendError && (
-            <div className="contact__error">
-              ⚠ {sendError}
-            </div>
-          )}
-
           <CyberInput
             label="NOME"
             placeholder="Seu nome completo"

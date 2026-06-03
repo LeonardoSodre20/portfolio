@@ -13,6 +13,7 @@ export const PROJECTS = [
     icon: Globe,
     githubUrl: "https://github.com/LeonardoSodre20/gen-ai-web",
     cover: "/images/gen-ai-web.png",
+    status: "wip",
   },
   {
     id: "02",
@@ -26,6 +27,7 @@ export const PROJECTS = [
     icon: Server,
     githubUrl: "https://github.com/LeonardoSodre20/gen-ai-backend",
     cover: "/images/gen-ai-backend.png",
+    status: "wip",
   },
   {
     id: "03",

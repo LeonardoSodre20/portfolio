@@ -114,12 +114,26 @@ export function ProjectsSection() {
 
                     <div className="project-card__body">
                       <span className="project-card__id">// {p.id}</span>
-                      <h3
-                        className="project-card__title"
-                        style={{ textShadow: `0 0 8px ${p.color}` }}
-                      >
-                        {p.title}
-                      </h3>
+                      <div className="project-card__title-row">
+                        <h3
+                          className="project-card__title"
+                          style={{ textShadow: `0 0 8px ${p.color}`, marginTop: 0 }}
+                        >
+                          {p.title}
+                        </h3>
+                        {"status" in p && p.status === "wip" && (
+                          <span
+                            className="project-card__status"
+                            style={{
+                              color: "#FFE600",
+                              border: "1px solid #FFE60066",
+                              background: "#FFE60018",
+                            }}
+                          >
+                            Em andamento
+                          </span>
+                        )}
+                      </div>
                       <p className="project-card__desc">{p.desc}</p>
 
                       <div className="project-card__stack">

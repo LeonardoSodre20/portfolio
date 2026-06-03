@@ -136,6 +136,10 @@
 .project-card__body{padding:20px 18px;display:flex;flex-direction:column;flex:1}
 .project-card__id{font-family:var(--font-mono);font-size:13px;color:var(--color-muted)}
 .project-card__title{font-family:var(--font-orbi);font-weight:700;font-size:15px;color:#fff;margin-top:4px}
+
+.project-card__title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px}
+
+.project-card__status{font-family:var(--font-pixel);font-size:9px;padding:3px 8px;border-radius:2px;text-transform:uppercase;animation:neon-pulse 1.5s ease-in-out infinite;line-height:1.2}
 .project-card__desc{font-family:var(--font-mono);font-size:14px;color:var(--color-text);line-height:1.75;flex:1;margin-top:10px}
 .project-card__stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
 .project-card__tech{font-family:var(--font-mono);font-size:12px;padding:2px 8px;border-radius:2px}

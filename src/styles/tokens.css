@@ -1,0 +1,17 @@
+:root {
+  --bg: #0B0C10;
+  --surface: #12141A;
+  --surface-2: #171A22;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #E8E9EE;
+  --text-muted: #9094A3;
+  --accent: #7C9CFF;
+  --accent-2: #A58BFF;
+  --whatsapp: #25D366;
+
+  --radius: 12px;
+  --container: 1120px;
+
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Sora', 'Inter', sans-serif;
+}

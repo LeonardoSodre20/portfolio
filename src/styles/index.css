@@ -1,8 +1,5 @@
 @import './fonts.css';
 @import './tailwind.css';
-@import './theme.css';
-@import './animations.css';
-@import './components.css';
 @import './tokens.css';
 @import './base.css';
 @import './site.css';

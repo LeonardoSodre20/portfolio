@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
-const SECTION_IDS = ["inicio", "servicos", "projetos", "como-funciona", "sobre", "contato"] as const;
+import { Hero } from "@/components/sections/Hero";
+import { Services } from "@/components/sections/Services";
+import { ProjectsList } from "@/components/sections/ProjectsList";
+import { Process } from "@/components/sections/Process";
+import { About } from "@/components/sections/About";
+import { FinalCta } from "@/components/sections/FinalCta";
 
 export function HomePage() {
   const { state } = useLocation();
@@ -17,9 +21,12 @@ export function HomePage() {
 
   return (
     <main>
-      {SECTION_IDS.map((id) => (
-        <section key={id} id={id} className="section" aria-label={id} />
-      ))}
+      <Hero />
+      <Services />
+      <ProjectsList />
+      <Process />
+      <About />
+      <FinalCta />
     </main>
   );
 }

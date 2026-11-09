@@ -5,7 +5,6 @@ import { ScanlineOverlay, CRTGrid, AmbientBlobs } from "@/components/layout/Over
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
-import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export default function App() {
@@ -25,7 +24,6 @@ export default function App() {
         <HeroSection onNavigate={scrollTo} />
         <AboutSection />
         <SkillsSection />
-        <ProjectsSection />
         <ContactSection />
         <Footer />
         <Toaster theme="dark" richColors position="top-center" />

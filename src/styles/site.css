@@ -1,1 +1,30 @@
 /* Estilos do site (BEM). Componentes novos entram aqui. */
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:15px;line-height:1;padding:13px 20px;border-radius:10px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn--primary{background:var(--accent);color:#0B0C10}
+.btn--primary:hover{box-shadow:0 8px 24px rgba(124,156,255,.35)}
+.btn--ghost{background:transparent;color:var(--text);border-color:var(--border)}
+.btn--ghost:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04)}
+.btn--whatsapp{background:var(--whatsapp);color:#06240F;box-shadow:0 6px 20px rgba(37,211,102,.25)}
+.btn--whatsapp:hover{box-shadow:0 10px 28px rgba(37,211,102,.4)}
+.btn--lg{font-size:16px;padding:16px 26px;border-radius:12px}
+
+/* ── Section ── */
+.section{padding:96px 24px}
+.section__inner{max-width:var(--container);margin:0 auto}
+.section__header{margin-bottom:40px;max-width:640px}
+.section__eyebrow{display:block;font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.section__title{font-family:var(--font-display);font-weight:700;font-size:clamp(28px,4vw,40px);line-height:1.15;letter-spacing:-.02em;margin:0;color:var(--text)}
+@media (max-width:640px){.section{padding:64px 16px}}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease}
+.reveal.is-visible{opacity:1;transform:none}
+
+/* ── Browser frame ── */
+.browser-frame{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.browser-frame__bar{display:flex;gap:6px;padding:10px 14px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+.browser-frame__bar span{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16)}
+.browser-frame__img{width:100%;height:auto}

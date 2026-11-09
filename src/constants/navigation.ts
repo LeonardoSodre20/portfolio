@@ -1,1 +1,5 @@
-export const NAV_LINKS = ["INÍCIO", "SOBRE", "SKILLS", "PROJETOS", "CONTATO"] as const;
+export const NAV_ITEMS = [
+  { label: "Projetos", id: "projetos" },
+  { label: "Como funciona", id: "como-funciona" },
+  { label: "Sobre", id: "sobre" },
+] as const;

@@ -7,13 +7,15 @@ export function Process() {
     <Section id="como-funciona" eyebrow="Como funciona" title="Do primeiro contato ao sistema funcionando">
       <ol className="steps">
         {PROCESS_STEPS.map((step, i) => (
-          <Reveal key={step.title} delay={i * 80}>
-            <li className="card step">
-              <span className="step__number">{i + 1}</span>
-              <h3 className="step__title">{step.title}</h3>
-              <p className="step__desc">{step.description}</p>
-            </li>
-          </Reveal>
+          <li key={step.title}>
+            <Reveal delay={i * 80}>
+              <div className="card step">
+                <span className="step__number">{i + 1}</span>
+                <h3 className="step__title">{step.title}</h3>
+                <p className="step__desc">{step.description}</p>
+              </div>
+            </Reveal>
+          </li>
         ))}
       </ol>
     </Section>

@@ -1,12 +1,16 @@
 # Portfolio — Leonardo Sodré
 
+Site de captação de clientes: sites e sistemas sob medida para pequenos negócios. Contato principal pelo WhatsApp.
+
 ## Stack
 
-- React 18 + TypeScript
-- Vite 6 (bundler)
-- Tailwind CSS v4 (via `@tailwindcss/vite`)
-- pnpm (package manager)
-- `lucide-react` (icons)
+- React 19 + TypeScript
+- Vite 7 (bundler)
+- Tailwind CSS v4 (via `@tailwindcss/vite`, só o reset; os estilos são CSS BEM próprio)
+- react-router-dom com `HashRouter` (rotas `/` e `/projetos/:slug`, funciona em qualquer hospedagem estática)
+- Vitest + Testing Library + jsdom
+- pnpm (gerenciador de pacotes)
+- `lucide-react` (ícones de interface) e `react-icons` (ícones de tecnologia e WhatsApp)
 
 ## Commands
 
@@ -15,6 +19,7 @@ pnpm dev        # dev server
 pnpm build      # production build
 pnpm preview    # preview production build
 pnpm typecheck  # tsc --noEmit
+pnpm test       # vitest run
 ```
 
 ## Project Structure
@@ -22,82 +27,60 @@ pnpm typecheck  # tsc --noEmit
 ```
 src/
 ├── components/
-│   ├── layout/      # Navbar, Footer, Overlays
-│   ├── sections/    # Hero, About, Skills, Projects, Contact
-│   └── ui/          # Reusable: CyberBtn, CyberPanel, NavLink, etc.
-├── constants/       # Data per domain (navigation, projects, skills)
-├── hooks/           # Custom hooks (useTyping)
-├── styles/          # CSS (theme, animations, components, tailwind, fonts)
-└── assets/          # Static images
+│   ├── layout/      # SiteNavbar, SiteFooter, FloatingWhatsApp, ScrollToTop
+│   ├── sections/    # Hero, Services, ProjectsList, Process, About, FinalCta
+│   └── ui/          # Button, WhatsAppButton, Section, Reveal, BrowserFrame, ProjectCard, TechChips
+├── pages/           # HomePage, ProjectPage, NotFoundPage
+├── constants/       # Dados: projects, services, process, about, contact, navigation, tech-icons
+├── hooks/           # useReveal, useSectionNavigation
+├── lib/             # whatsapp.ts (buildWhatsAppUrl)
+├── styles/          # fonts, tailwind, tokens, base, site (BEM)
+├── test/            # setup e helpers de teste
+└── assets/          # Imagens importadas (avatar)
+public/images/       # Capas dos projetos
 ```
 
 ## Conventions
 
-### Component Pattern
+### Components
 - Named exports (`export function ComponentName`)
-- Props typed via `interface ComponentNameProps`
-- One component per file
+- Props tipadas via `interface ComponentNameProps`
+- Um componente por arquivo; teste ao lado (`Nome.test.tsx`)
 
 ### Styling
-- **CSS custom properties** for colors/fonts — defined in `src/styles/theme.css` as `--color-*` and `--font-*`
-- **BEM-like classes** in `src/styles/components.css` (e.g., `.navbar__logo`, `.cyber-btn--primary`)
-- **Inline styles** use CSS variables: `style={{ color: "var(--color-purple)" }}`
-- **Alpha variants** in data-driven inline styles use hex values from constant data arrays (data constants carry raw hex, not CSS vars)
-- **Animations** in `src/styles/animations.css` — use utility classes (`.glitch-text`, `.flicker`, `.neon-pulse`, `.blink`, `.float-anim`)
+- Tokens em `src/styles/tokens.css`: `--bg`, `--surface`, `--surface-2`, `--border`, `--text`, `--text-muted`, `--accent` (#7C9CFF), `--accent-2`, `--whatsapp` (#25D366), `--radius`, `--container`, `--font-body` (Inter), `--font-display` (Sora)
+- Classes BEM em `src/styles/site.css` (ex.: `.site-nav__link`, `.btn--whatsapp`, `.case__block`)
+- Reset e acessibilidade (foco visível, `prefers-reduced-motion`) em `src/styles/base.css`
+- Visual escuro e sóbrio. Não usar neon, fontes pixel, terminal falso nem efeitos de jogo
+- O botão de WhatsApp é o elemento de maior destaque em cada tela
 
 ### Imports
-- Path alias `@/` maps to `src/`
-- Example: `import { Navbar } from "@/components/layout/Navbar"`
+- Alias `@/` aponta para `src/`
 
-### Color System (Single Source of Truth)
-- All colors defined as CSS custom properties in `src/styles/theme.css`
-- Components reference colors via `var(--color-*)` in inline styles
-- Data files (`projects.ts`, `skills.ts`) use inline hex strings for colors
-- No TypeScript color constants — `src/constants/colors.ts` was removed
-
-### Design Tokens (from theme.css)
-```
---color-bg: #05000D       (background)
---color-card: #0C0018     (card surface)
---color-purple: #BF00FF   (primary accent)
---color-magenta: #FF00FF  (secondary accent)
---color-cyan: #00FFFF     (tertiary accent)
---color-pink: #FF2D78     (highlight)
---color-yellow: #FFE600   (warning/highlight)
---color-white: #EDE8FF    (text primary)
---color-text: #B8A8D8     (text secondary)
---color-muted: #4A3A6A    (text muted)
---color-border: rgba(191,0,255,0.3)
-```
-
-### Fonts
-```
---font-pixel: 'Press Start 2P', monospace  (headings, small labels)
---font-orbi: 'Orbitron', monospace          (large headings)
---font-mono: 'Share Tech Mono', monospace   (body, terminal output)
---font-retro: 'VT323', monospace            (typing animation)
-```
+### Contact / WhatsApp
+- Número, mensagem padrão, e-mail, LinkedIn e GitHub vivem em `src/constants/contact.ts`
+- Sempre gerar links de WhatsApp com `buildWhatsAppUrl(message?)` (ou o componente `WhatsAppButton`); nunca montar a URL à mão
+- Não há formulário de contato nem backend
 
 ### Navigation
-- Single-page scroll via `document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })`
-- Section IDs match NAV_LINKS constants (lowercased, `í` → `i`)
-- `Navbar` receives `onNavigate` callback from `App`
+- Seções da home: `inicio`, `servicos`, `projetos`, `como-funciona`, `sobre`, `contato`
+- Para rolar até uma seção use `useSectionNavigation()`: na home rola; em outra página volta para `/` e rola
+- Links externos: `target="_blank"` e `rel="noopener noreferrer"`
 
-### Forms
-- Contact form uses `CyberInput` + `CyberBtn` components
-- No backend integration currently — form sets local `sent` state only
-
-### External Links
-- All external `<a>` tags must include `target="_blank"` and `rel="noopener noreferrer"`
-- `IconLink` component already handles this
+### Projetos (estudos de caso)
+- Cada projeto é uma entrada de `PROJECTS` em `src/constants/projects.ts` (interface `ProjectCase`)
+- Capas em `public/images/` (referenciar como `/images/arquivo.png`); `cover` é opcional
+- `result` só é preenchido com resultado real e informado pelo dono do projeto. Sem ele a página mostra "O que o sistema faz". Nunca inventar números ou depoimentos
+- Só usar telas com dados fictícios ou de demonstração. Nunca expor credenciais, `.env`, endereços, telefones ou dados de clientes finais
+- Citar o nome de um cliente (`client`) só com autorização
+- Ícones de tecnologia: mapa em `src/constants/tech-icons.ts`; tecnologia sem ícone aparece só como texto
 
 ### Git
-- Only the user may push to remote (`git push`). Never push unless explicitly asked.
-- Semantic commit messages following conventional commits format.
-- Run `pnpm typecheck` and `pnpm build` before committing.
+- Somente o usuário faz push (`git push`). Nunca fazer push sem pedido explícito.
+- Commits semânticos (conventional commits).
+- Rodar `pnpm typecheck`, `pnpm test` e `pnpm build` antes de commitar.
 
 ### TypeScript
 - `strict: true`, `noUnusedLocals`, `noUnusedParameters`
-- JSX: `react-jsx` transform
-- Module: `ESNext`, bundler resolution
-- Run `pnpm typecheck` before committing
+- JSX: `react-jsx`
+- Module: `ESNext`, resolução `bundler`

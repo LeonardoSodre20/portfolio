@@ -1,11 +1,11 @@
 import { Github, ExternalLink, Star } from "lucide-react";
 import type { IconType } from "react-icons";
 import {
-  SiReact, SiTypescript, SiVite, SiChakraui,
-  SiReactrouter, SiReactquery, SiAxios, SiZod,
-  SiNestjs, SiMongodb, SiTypeorm, SiJsonwebtokens,
-  SiDocker, SiVitest, SiSwc, SiTailwindcss, SiSwiper, SiI18Next,
+  SiReact, SiTypescript, SiVite,
+  SiReactrouter, SiReactquery, SiNestjs,
+  SiDocker, SiVitest, SiTailwindcss, SiSwiper, SiI18Next,
   SiTurborepo, SiShadcnui, SiGithubactions,
+  SiSpringboot, SiPostgresql, SiFirebase, SiPwa,
 } from "react-icons/si";
 import { PROJECTS } from "@/constants/projects";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -15,24 +15,21 @@ const TECH_ICONS: Record<string, IconType> = {
   React: SiReact,
   TypeScript: SiTypescript,
   Vite: SiVite,
-  "Chakra UI": SiChakraui,
   "TanStack Router": SiReactrouter,
   "React Query": SiReactquery,
-  Axios: SiAxios,
-  Zod: SiZod,
   NestJS: SiNestjs,
-  MongoDB: SiMongodb,
-  TypeORM: SiTypeorm,
-  JWT: SiJsonwebtokens,
+  Firebase: SiFirebase,
+  PWA: SiPwa,
   Docker: SiDocker,
   Vitest: SiVitest,
-  SWC: SiSwc,
   "Tailwind CSS": SiTailwindcss,
   Swiper: SiSwiper,
   i18next: SiI18Next,
   Turborepo: SiTurborepo,
   ShadcnUI: SiShadcnui,
   "GitHub Actions": SiGithubactions,
+  "Spring Boot": SiSpringboot,
+  PostgreSQL: SiPostgresql,
 };
 
 const SUBSECTIONS = [
@@ -121,20 +118,21 @@ export function ProjectsSection() {
                         >
                           {p.title}
                         </h3>
-                        {"status" in p && p.status === "wip" && (
-                          <span
-                            className="project-card__status"
-                            style={{
-                              color: "#FFE600",
-                              border: "1px solid #FFE60066",
-                              background: "#FFE60018",
-                            }}
-                          >
-                            Em andamento
-                          </span>
-                        )}
                       </div>
                       <p className="project-card__desc">{p.desc}</p>
+
+                      {p.highlights && (
+                        <div className="project-card__highlights" style={{ borderLeft: `2px solid ${p.color}` }}>
+                          <span className="project-card__highlights-label" style={{ color: p.color }}>
+                            // DESTAQUES TÉCNICOS
+                          </span>
+                          <ul>
+                            {p.highlights.map((h) => (
+                              <li key={h}>{h}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
                       <div className="project-card__stack">
                         {p.stack.map((tech) => {
@@ -162,9 +160,11 @@ export function ProjectsSection() {
                             <Github size={12} /> Código
                           </HoverLink>
                         )}
-                        <HoverLink color={p.color} href={"demoUrl" in p ? p.demoUrl : "#"} external>
-                          <ExternalLink size={12} /> Demo
-                        </HoverLink>
+                        {p.demoUrl && (
+                          <HoverLink color={p.color} href={p.demoUrl} external>
+                            <ExternalLink size={12} /> Demo
+                          </HoverLink>
+                        )}
                       </div>
                     </div>
                   </div>
